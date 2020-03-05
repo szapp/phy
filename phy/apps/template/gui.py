@@ -197,6 +197,14 @@ def template_gui(params_path, **kwargs):  # pragma: no cover
     create_app()
     controller = TemplateController(model=load_model(params_path), dir_path=dir_path, **kwargs)
     gui = controller.create_gui()
+
+    # Work around to properly restore window geometry
+    from PyQt5.QtWidgets import QMessageBox
+    box = QMessageBox()
+    box.setStandardButtons(QMessageBox.Ok)
+    box.button(QMessageBox.Ok).animateClick(50)
+    box.exec_()
+
     gui.show()
     run_app()
     gui.close()
